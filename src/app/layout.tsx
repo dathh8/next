@@ -4,6 +4,8 @@ import "@/app/globals.css";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import NextAuthWrapper from "@/library/next.auth.wrapper";
 import '@ant-design/v5-patch-for-react-19';
+import { SidebarProvider } from '@/context/SidebarContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +32,9 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <AntdRegistry>
           <NextAuthWrapper>
-            {children}
+            <ThemeProvider>
+              <SidebarProvider>{children}</SidebarProvider>
+            </ThemeProvider>
           </NextAuthWrapper>
         </AntdRegistry>
       </body>
