@@ -35,7 +35,8 @@ declare global {
             name: string;
             email:string;
         },
-        access_token: string
+        access_token: string,
+        expires_at: string
     }
 
 }

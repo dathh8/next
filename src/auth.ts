@@ -30,7 +30,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             _id: res.data?.user?._id,
             name: res.data?.user?.name,
             email: res.data?.user?.email,
-            access_token: res.data?.access_token
+            access_token: res.data?.access_token,
+            expires_at: res.data?.expires_at
           };
         }
 
@@ -51,9 +52,53 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/auth/login",
   },
   callbacks: {
-    jwt({ token, user }) {
+    async jwt({ token, user }) {
       if (user) { // User is available during sign-in
         token.user = (user as IUser)
+        token.access_expire = +token.user.expires_at
+      } else if (Date.now() < token.access_expire * 1000) {
+        // Subsequent logins, but the `access_token` is still valid
+        return token
+      } else {
+        // Subsequent logins, but the `access_token` has expired, try to refresh it
+        if (!token.refresh_token) throw new TypeError("Missing refresh_token")
+ 
+        try {
+          const response = await fetch("https://oauth2.googleapis.com/token", {
+            method: "POST",
+            body: new URLSearchParams({
+              client_id: process.env.AUTH_GOOGLE_ID!,
+              client_secret: process.env.AUTH_GOOGLE_SECRET!,
+              grant_type: "refresh_token",
+              refresh_token: token.refresh_token!,
+            }),
+          })
+ 
+          const tokensOrError = await response.json()
+ 
+          if (!response.ok) throw tokensOrError
+ 
+          const newTokens = tokensOrError as {
+            access_token: string
+            expires_in: number
+            refresh_token?: string
+          }
+ 
+          return {
+            ...token,
+            access_token: newTokens.access_token,
+            expires_at: Math.floor(Date.now() / 1000 + newTokens.expires_in),
+            // Some providers only issue refresh tokens once, so preserve if we did not get a new one
+            refresh_token: newTokens.refresh_token
+              ? newTokens.refresh_token
+              : token.refresh_token,
+          }
+        } catch (error) {
+          console.error("Error refreshing access_token", error)
+          // If we fail to refresh the token, return an error so we can handle it on the page
+          token.error = "RefreshTokenError"
+          return token
+        }
       }
       return token
     },

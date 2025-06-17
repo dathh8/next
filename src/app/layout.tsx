@@ -6,6 +6,7 @@ import NextAuthWrapper from "@/library/next.auth.wrapper";
 import '@ant-design/v5-patch-for-react-19';
 import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
