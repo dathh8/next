@@ -1,11 +1,10 @@
 'use server'
 
-import { signIn } from "@/auth"
+import {signIn} from "@/auth"
 
 export async function authenticate(username: string, password: string) {
     try {
-        const respone = await signIn("credentials", { username, password, redirect: false })
-        return respone;
+        return await signIn("credentials", {username, password, redirect: false});
     } catch (error) {
         if((error as any).name === "InvalidEmailPasswordError") {
             return {

@@ -1,6 +1,6 @@
 "use client"
-import { Button, Col, Divider, Form, Input, message, notification, Row } from 'antd';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import { Button, Col, Divider, Flex, Form, Input, message, notification, Row, Spin } from 'antd';
+import {ArrowLeftOutlined, LoadingOutlined} from '@ant-design/icons';
 import Checkbox from "@/components/form/input/Checkbox";
 import Label from "@/components/form/Label";
 import Link from 'next/link';
@@ -12,6 +12,7 @@ import '@ant-design/v5-patch-for-react-19';
 import ModalReactive from './modal.reactive';
 import { useState } from 'react';
 import ModalChangePassword from './modal.change.password';
+import FullScreenLoading from '@/components/common/FullScreenLoading';
 
 const Login = () => {
     const router = useRouter();
@@ -20,13 +21,16 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const [changePassword, setChangePassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const onFinish = async (values: any) => {
         const { username, password } = values;
+        setLoading(true);
         setUserEmail('');
         // const login = await signIn("credentials", { email, password, redirect: false });
         // console.log(login);
         const res = await authenticate(username, password);
+        setLoading(false);
         if (res?.error) {
             if (res?.code === 2) {
                 setUserEmail(username)
@@ -48,12 +52,13 @@ const Login = () => {
 
     return (
         <div className="flex flex-col flex-1 lg:w-1/2 w-full">
+            <FullScreenLoading loading={loading} />
             <div className="w-full max-w-md sm:pt-10 mx-auto mb-5">
                 <Link
                     href="/"
                     className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                 >
-                    <ChevronLeftIcon />
+                    <ChevronLeftIcon/>
                     Back to dashboard
                 </Link>
             </div>
@@ -69,7 +74,8 @@ const Login = () => {
                     </div>
                     <div>
                         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5">
-                            <button className="inline-flex items-center justify-center gap-3 py-3 text-sm font-normal text-gray-700 transition-colors bg-gray-100 rounded-lg px-7 hover:bg-gray-200 hover:text-gray-800 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10">
+                            <button
+                                className="inline-flex items-center justify-center gap-3 py-3 text-sm font-normal text-gray-700 transition-colors bg-gray-100 rounded-lg px-7 hover:bg-gray-200 hover:text-gray-800 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10">
                                 <svg
                                     width="20"
                                     height="20"
