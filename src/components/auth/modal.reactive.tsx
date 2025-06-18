@@ -14,7 +14,7 @@ const ModalReactive = (props: any) => {
 
     useEffect(() => {
         form.setFieldValue("email", userEmail)
-    }, [userEmail])
+    }, [form, userEmail])
 
     const showModal = () => {
         setIsModalOpen(true);
