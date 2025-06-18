@@ -39,7 +39,7 @@ const ModalReactive = (props: any) => {
         });
         if (res?.data) {
             setCurrent(1);
-            setUserId(res?.data?._id)
+            setUserId(res?.data?.id)
         } else {
             notification.error({
                 message: "Error",
@@ -49,12 +49,12 @@ const ModalReactive = (props: any) => {
     };
 
     const onFinishStep1 = async (values: any) => {
-        const { _id, code } = values;
+        const { id, code } = values;
         const res = await sendRequest<IBackendRes<any>>({
             url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/check-code`,
             method: "POST",
             body: {
-                _id: userId, code
+                id: userId, code
             }
         })
         if (res?.data) {

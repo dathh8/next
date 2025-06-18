@@ -1,16 +1,17 @@
 "use client"
-import { Button, Col, Divider, Flex, Form, Input, message, notification, Row, Spin } from 'antd';
+import {Button, Col, Divider, Flex, Form, Input, message, notification, Row, Spin} from 'antd';
 import {ArrowLeftOutlined, LoadingOutlined} from '@ant-design/icons';
+import ButtonUi from "@/components/ui/button/Button";
 import Checkbox from "@/components/form/input/Checkbox";
 import Label from "@/components/form/Label";
 import Link from 'next/link';
-import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "@/icons";
-import { signIn } from "next-auth/react"
-import { authenticate } from '@/utils/action';
-import { useRouter } from 'next/navigation';
+import {ChevronLeftIcon, EyeCloseIcon, EyeIcon} from "@/icons";
+import {signIn} from "next-auth/react"
+import {authenticate} from '@/utils/action';
+import {useRouter} from 'next/navigation';
 import '@ant-design/v5-patch-for-react-19';
 import ModalReactive from './modal.reactive';
-import { useState } from 'react';
+import {useState} from 'react';
 import ModalChangePassword from './modal.change.password';
 import FullScreenLoading from '@/components/common/FullScreenLoading';
 
@@ -53,15 +54,6 @@ const Login = () => {
     return (
         <div className="flex flex-col flex-1 lg:w-1/2 w-full">
             <FullScreenLoading loading={loading} />
-            <div className="w-full max-w-md sm:pt-10 mx-auto mb-5">
-                <Link
-                    href="/"
-                    className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
-                >
-                    <ChevronLeftIcon/>
-                    Back to dashboard
-                </Link>
-            </div>
             <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
                 <div>
                     <div className="mb-5 sm:mb-8">
@@ -129,7 +121,7 @@ const Login = () => {
                         <Form
                             name="basic"
                             onFinish={onFinish}
-                            autoComplete="off"
+                            autoComplete="on"
                             layout='vertical'
                         >
                             <Form.Item
@@ -175,10 +167,10 @@ const Login = () => {
                                     </div>
                                     <Button type='link' onClick={() => setChangePassword(true)}>Forgot password?</Button>
                                 </div>
-                                <div>
-                                    <Button className="w-full" type="primary" htmlType="submit">
+                                <div className="mt-5">
+                                    <ButtonUi className="w-full" size="sm">
                                         Sign in
-                                    </Button>
+                                    </ButtonUi>
                                 </div>
                             </Form.Item>
                         </Form>
