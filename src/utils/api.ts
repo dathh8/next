@@ -1,3 +1,5 @@
+'use server';
+
 import queryString from 'query-string';
 
 export const sendRequest = async <T>(props: IRequest) => { //type
