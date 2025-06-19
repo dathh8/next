@@ -6,6 +6,7 @@ export async function authenticate(username: string, password: string) {
     try {
         return await signIn("credentials", {username, password, redirect: false});
     } catch (error) {
+        console.error("Authentication error:", error);
         if((error as any).name === "InvalidEmailPasswordError") {
             return {
                 error: "InvalidEmailPasswordError",
