@@ -14,7 +14,11 @@ export const sendRequest = async <T>(props: IRequest) => { //type
     const options: any = {
         method: method,
         // by default setting the content-type to be json type
-        headers: new Headers({ 'content-type': 'application/json', ...headers }),
+        headers: new Headers({
+            'content-type': 'application/json',
+            ...headers,
+            'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_BACKEND_URL,
+        }),
         body: body ? JSON.stringify(body) : null,
         ...nextOption
     };
@@ -54,7 +58,7 @@ export const sendRequestFile = async <T>(props: IRequest) => { //type
     const options: any = {
         method: method,
         // by default setting the content-type to be json type
-        headers: new Headers({ ...headers }),
+        headers: new Headers({ ...headers, 'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_BACKEND_URL }),
         body: body ? body : null,
         ...nextOption
     };
