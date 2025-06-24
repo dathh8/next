@@ -1,6 +1,7 @@
 'use server';
 
 import queryString from 'query-string';
+import { useSession, signOut } from 'next-auth/react';
 
 export const sendRequest = async <T>(props: IRequest) => { //type
     let {

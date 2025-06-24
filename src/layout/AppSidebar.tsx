@@ -18,6 +18,7 @@ import {
   UserCircleIcon,
 } from "../icons/index";
 import SidebarWidget from "./SidebarWidget";
+import {BarsOutlined} from "@ant-design/icons";
 
 type NavItem = {
   name: string;
@@ -31,6 +32,11 @@ const navItems: NavItem[] = [
     icon: <GridIcon />,
     name: "Dashboard",
     subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+  },
+  {
+    name: "Post Management",
+    icon: <BarsOutlined />,
+    subItems: [{ name: "Post Listing", path: "/post_management/post_listing", pro: false }],
   },
   {
     icon: <CalenderIcon />,
